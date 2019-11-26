@@ -4,9 +4,7 @@ import common.Person;
 import common.PersonService;
 import common.Task;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -20,7 +18,15 @@ public class Task1 implements Task {
   // !!! Редактируйте этот метод !!!
   private List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = PersonService.findPersons(personIds);
-    return Collections.emptyList();
+    Map<Integer, Person> mapIdPerson = new HashMap<>(persons.size());
+    persons.forEach(p->mapIdPerson.put(p.getId(),p));           //O(n)
+    List<Person> personsSort = new ArrayList<>(persons.size());
+    personIds.forEach(id->personsSort.add(mapIdPerson.get(id)));//O(n)
+    return personsSort;
+    //List<Person> personsList = new ArrayList<>(persons);
+    //persons.sort(Comparator.comparingInt(p -> personIds.indexOf(p.getId())));// асимптотика O(n**2*log(n) так как сортировка O(nLog(n)) * indexOf O(n)
+    //return persons;
+
   }
 
   @Override
